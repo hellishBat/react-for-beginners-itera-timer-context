@@ -1,38 +1,15 @@
 // Timer
-import { FC, useEffect, useContext } from 'react'
+import { FC, useContext } from 'react'
 import { TimerContext } from '../../context/TimerContext'
 import TimerStatus from '../TimerStatus'
 import Display from '../Display'
 import Button from '../Button'
+import useTimer from '../../hooks/useTimer'
 
 const Timer: FC = () => {
-  const { isRunning, setIsRunning, counter, setCounter } =
-    useContext(TimerContext)
+  const { isRunning, counter } = useContext(TimerContext)
 
-  useEffect(() => {
-    let counterInterval: any
-
-    if (isRunning) {
-      counterInterval = setInterval(() => {
-        setCounter((counter: number) => counter + 1)
-      }, 1000)
-    }
-
-    return () => clearInterval(counterInterval)
-  }, [isRunning, counter, setCounter])
-
-  const startTimer = () => {
-    setIsRunning(true)
-  }
-
-  const stopTimer = () => {
-    setIsRunning(false)
-  }
-
-  const resetTimer = () => {
-    setIsRunning(false)
-    setCounter(0)
-  }
+  const { startTimer, stopTimer, resetTimer } = useTimer()
 
   return (
     <div className="flex flex-col items-center max-w-[40rem] mx-auto py-16 rounded-xl shadow-lg bg-light bg-gradient text-white bg-gradient-to-r from-neutral-400 to-neutral-300">
